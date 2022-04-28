@@ -52,7 +52,7 @@ export interface NewTimeEntry {
 }
 
 const useTimeEntries = () => {
-  const { data, error } = useAllTimeEntriesQuery();
+  const { data, error, refetch } = useAllTimeEntriesQuery();
   const [logTimeMutation] = useLogTimeMutation();
 
   if (error) {
@@ -77,7 +77,7 @@ const useTimeEntries = () => {
           start: timeEntry.start.toISOString(),
           end: timeEntry.end.toISOString(),
         },
-      });
+      }).then(() => refetch());
       // logTimeEntryMutation
       console.log("log time entry", timeEntry);
     },
