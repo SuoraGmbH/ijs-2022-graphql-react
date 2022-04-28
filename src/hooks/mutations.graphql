@@ -1,0 +1,38 @@
+mutation LondonCalling(
+  $comment: String!
+  $projectId: String!
+  $start: Date!
+  $end: Date!
+) {
+  addTimeEntry(
+    comment: $comment
+    projectId: $projectId
+    start: $start
+    end: $end
+  ) {
+    id
+    comment
+    project {
+      name
+    }
+  }
+}
+mutation LondonCalling2(
+  $comment: String!
+  $projectId: String!
+  $start: Date!
+  $end: Date!
+) {
+  addTimeEntry(
+    comment: $comment
+    projectId: $projectId
+    start: $start
+    end: $end
+  ) {
+    id
+    comment
+    project {
+      name
+    }
+  }
+}

@@ -79,6 +79,26 @@ export type TimeEntry = {
   start: Scalars['Date'];
 };
 
+export type LondonCallingMutationVariables = Exact<{
+  comment: Scalars['String'];
+  projectId: Scalars['String'];
+  start: Scalars['Date'];
+  end: Scalars['Date'];
+}>;
+
+
+export type LondonCallingMutation = { __typename?: 'Mutation', addTimeEntry: { __typename?: 'TimeEntry', id: string, comment: string, project: { __typename?: 'Project', name: string } } };
+
+export type LondonCalling2MutationVariables = Exact<{
+  comment: Scalars['String'];
+  projectId: Scalars['String'];
+  start: Scalars['Date'];
+  end: Scalars['Date'];
+}>;
+
+
+export type LondonCalling2Mutation = { __typename?: 'Mutation', addTimeEntry: { __typename?: 'TimeEntry', id: string, comment: string, project: { __typename?: 'Project', name: string } } };
+
 export type AllTimeEntriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -95,6 +115,86 @@ export type LogTimeMutationVariables = Exact<{
 export type LogTimeMutation = { __typename?: 'Mutation', addTimeEntry: { __typename?: 'TimeEntry', id: string, comment: string, project: { __typename?: 'Project', name: string } } };
 
 
+export const LondonCallingDocument = gql`
+    mutation LondonCalling($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
+  addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
+    id
+    comment
+    project {
+      name
+    }
+  }
+}
+    `;
+export type LondonCallingMutationFn = Apollo.MutationFunction<LondonCallingMutation, LondonCallingMutationVariables>;
+
+/**
+ * __useLondonCallingMutation__
+ *
+ * To run a mutation, you first call `useLondonCallingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLondonCallingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [londonCallingMutation, { data, loading, error }] = useLondonCallingMutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *      projectId: // value for 'projectId'
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *   },
+ * });
+ */
+export function useLondonCallingMutation(baseOptions?: Apollo.MutationHookOptions<LondonCallingMutation, LondonCallingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LondonCallingMutation, LondonCallingMutationVariables>(LondonCallingDocument, options);
+      }
+export type LondonCallingMutationHookResult = ReturnType<typeof useLondonCallingMutation>;
+export type LondonCallingMutationResult = Apollo.MutationResult<LondonCallingMutation>;
+export type LondonCallingMutationOptions = Apollo.BaseMutationOptions<LondonCallingMutation, LondonCallingMutationVariables>;
+export const LondonCalling2Document = gql`
+    mutation LondonCalling2($comment: String!, $projectId: String!, $start: Date!, $end: Date!) {
+  addTimeEntry(comment: $comment, projectId: $projectId, start: $start, end: $end) {
+    id
+    comment
+    project {
+      name
+    }
+  }
+}
+    `;
+export type LondonCalling2MutationFn = Apollo.MutationFunction<LondonCalling2Mutation, LondonCalling2MutationVariables>;
+
+/**
+ * __useLondonCalling2Mutation__
+ *
+ * To run a mutation, you first call `useLondonCalling2Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLondonCalling2Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [londonCalling2Mutation, { data, loading, error }] = useLondonCalling2Mutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *      projectId: // value for 'projectId'
+ *      start: // value for 'start'
+ *      end: // value for 'end'
+ *   },
+ * });
+ */
+export function useLondonCalling2Mutation(baseOptions?: Apollo.MutationHookOptions<LondonCalling2Mutation, LondonCalling2MutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LondonCalling2Mutation, LondonCalling2MutationVariables>(LondonCalling2Document, options);
+      }
+export type LondonCalling2MutationHookResult = ReturnType<typeof useLondonCalling2Mutation>;
+export type LondonCalling2MutationResult = Apollo.MutationResult<LondonCalling2Mutation>;
+export type LondonCalling2MutationOptions = Apollo.BaseMutationOptions<LondonCalling2Mutation, LondonCalling2MutationVariables>;
 export const AllTimeEntriesDocument = gql`
     query AllTimeEntries {
   timeEntries {
