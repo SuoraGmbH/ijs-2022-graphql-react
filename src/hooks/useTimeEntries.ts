@@ -1,5 +1,8 @@
 import { gql } from "@apollo/client";
-import { useAllTimeEntriesQuery } from "../generated/graphql";
+import {
+  useAllTimeEntriesQuery,
+  useLogTimeMutation,
+} from "../generated/graphql";
 
 gql`
   query AllTimeEntries {
@@ -8,6 +11,28 @@ gql`
       comment
       start
       end
+    }
+  }
+`;
+
+gql`
+  mutation LogTime(
+    $comment: String!
+    $projectId: String!
+    $start: Date!
+    $end: Date!
+  ) {
+    addTimeEntry(
+      comment: $comment
+      projectId: $projectId
+      start: $start
+      end: $end
+    ) {
+      id
+      comment
+      project {
+        name
+      }
     }
   }
 `;
@@ -26,29 +51,34 @@ export interface NewTimeEntry {
   projectId: string;
 }
 
-type UseTimeEntriesReturnValue = {
-  timeEntries: TimeEntry[],
-  logTime: (newTimeEntry: NewTimeEntry) => void
-}
-
-const useTimeEntries = (): UseTimeEntriesReturnValue => {
+const useTimeEntries = () => {
   const { data, error } = useAllTimeEntriesQuery();
+  const [logTime] = useLogTimeMutation();
 
   if (error) {
     throw error;
   }
 
-  const timeEntriesWithAnyDate = data?.timeEntries ?? []
+  const timeEntriesWithAnyDate = data?.timeEntries ?? [];
 
-  const timeEntries = timeEntriesWithAnyDate.map(timeEntry => ({
+  const timeEntries = timeEntriesWithAnyDate.map((timeEntry) => ({
     ...timeEntry,
     start: new Date(timeEntry.start),
     end: new Date(timeEntry.end),
-  }))
+  }));
 
   return {
     timeEntries: timeEntries,
     logTime: (timeEntry: NewTimeEntry): void => {
+      logTime({
+        variables: {
+          comment: timeEntry.comment,
+          projectId: timeEntry.projectId,
+          start: timeEntry.start.toISOString(),
+          end: timeEntry.end.toISOString(),
+        },
+      });
+      // logTimeEntryMutation
       console.log("log time entry", timeEntry);
     },
   };
