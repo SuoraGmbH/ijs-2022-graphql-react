@@ -53,7 +53,7 @@ export interface NewTimeEntry {
 
 const useTimeEntries = () => {
   const { data, error } = useAllTimeEntriesQuery();
-  const [logTime] = useLogTimeMutation();
+  const [logTimeMutation] = useLogTimeMutation();
 
   if (error) {
     throw error;
@@ -70,7 +70,7 @@ const useTimeEntries = () => {
   return {
     timeEntries: timeEntries,
     logTime: (timeEntry: NewTimeEntry): void => {
-      logTime({
+      logTimeMutation({
         variables: {
           comment: timeEntry.comment,
           projectId: timeEntry.projectId,
