@@ -5,6 +5,9 @@ gql`
   query AllTimeEntries {
     timeEntries {
       id
+      comment
+      start
+      end
     }
   }
 `;
@@ -23,24 +26,28 @@ export interface NewTimeEntry {
   projectId: string;
 }
 
-const useTimeEntries = () => {
-  useAllTimeEntriesQuery();
+type UseTimeEntriesReturnValue = {
+  timeEntries: TimeEntry[],
+  logTime: (newTimeEntry: NewTimeEntry) => void
+}
+
+const useTimeEntries = (): UseTimeEntriesReturnValue => {
+  const { data, error } = useAllTimeEntriesQuery();
+
+  if (error) {
+    throw error;
+  }
+
+  const timeEntriesWithAnyDate = data?.timeEntries ?? []
+
+  const timeEntries = timeEntriesWithAnyDate.map(timeEntry => ({
+    ...timeEntry,
+    start: new Date(timeEntry.start),
+    end: new Date(timeEntry.end),
+  }))
 
   return {
-    timeEntries: [
-      {
-        id: "1",
-        comment: "My first time entry",
-        start: new Date("2022-04-28T10:00:00Z"),
-        end: new Date("2022-04-28T11:00:00Z"),
-      },
-      {
-        id: "2",
-        comment: "My second time entry",
-        start: new Date("2022-04-28T10:00:00Z"),
-        end: new Date("2022-04-28T11:00:00Z"),
-      },
-    ],
+    timeEntries: timeEntries,
     logTime: (timeEntry: NewTimeEntry): void => {
       console.log("log time entry", timeEntry);
     },

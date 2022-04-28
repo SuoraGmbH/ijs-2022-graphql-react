@@ -82,13 +82,16 @@ export type TimeEntry = {
 export type AllTimeEntriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTimeEntriesQuery = { __typename?: 'Query', timeEntries: Array<{ __typename?: 'TimeEntry', id: string }> };
+export type AllTimeEntriesQuery = { __typename?: 'Query', timeEntries: Array<{ __typename?: 'TimeEntry', id: string, comment: string, start: any, end: any }> };
 
 
 export const AllTimeEntriesDocument = gql`
     query AllTimeEntries {
   timeEntries {
     id
+    comment
+    start
+    end
   }
 }
     `;
